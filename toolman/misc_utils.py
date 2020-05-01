@@ -289,3 +289,14 @@ def change_channel_order(data, to_channel_last=True):
             return np.rollaxis(data, 2, 0)
         else:
             return np.rollaxis(data, 3, 1)
+
+
+def verb_print(txt, verbose=True):
+    """
+    Only print the txt if verbose is set to True
+    :param txt: the string to be printed
+    :param verbose: if Ture, print the text, otherwise do nothing
+    :return:
+    """
+    if verbose:
+        print(txt)

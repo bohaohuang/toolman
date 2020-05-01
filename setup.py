@@ -7,19 +7,19 @@ def readme():
 
 
 setup(name='toolman',
-      version='0.1a',
+      version='0.1b',
       description='Python utility tools for research',
       url='https://github.com/bohaohuang/toolman',
       author='bohaohuang',
       author_email='hbhzhuce@gmail.com',
       license='MIT',
       packages=['toolman'],
-      install_requirements=[
+      install_requires=[
             'numpy',
             'Pillow',
             'scikit-learn',
             'scikit-image',
-            'natsort'
+            'natsort',
             'matplotlib',
             'torchsummary',
       ],
