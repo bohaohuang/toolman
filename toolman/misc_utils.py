@@ -3,17 +3,23 @@ import os
 import time
 import json
 import pickle
+import datetime
+import subprocess
 import collections.abc
 from glob import glob
 from functools import wraps
 
 # Libs
 import numpy as np
+import pandas as pd
 from PIL import Image
 from skimage import io
 from natsort import natsorted
 
 # Own modules
+
+
+# TODO add test modules
 
 
 def make_dir_if_not_exist(dir_path):
@@ -71,7 +77,7 @@ def load_file(file_name, **kwargs):
             with open(file_name, 'r') as f:
                 data = f.readlines()
         elif file_name[-3:] == 'csv':
-            data = np.genfromtxt(file_name, delimiter=',', dtype=None, encoding='UTF-8')
+            data = pd.read_csv(file_name, **kwargs)
         elif file_name[-4:] == 'json':
             data = json.load(open(file_name))
         elif 'pil' in kwargs and kwargs['pil']:
@@ -272,25 +278,6 @@ def parse_args(arg_list):
     return arg_dict
 
 
-def change_channel_order(data, to_channel_last=True):
-    """
-    Switch the image type from channel first to channel last
-    :param data: the data to switch the channels
-    :param to_channel_last: if True, switch the first channel to the last
-    :return: the channel switched data
-    """
-    if to_channel_last:
-        if len(data.shape) == 3:
-            return np.rollaxis(data, 0, 3)
-        else:
-            return np.rollaxis(data, 1, 4)
-    else:
-        if len(data.shape) == 3:
-            return np.rollaxis(data, 2, 0)
-        else:
-            return np.rollaxis(data, 3, 1)
-
-
 def verb_print(txt, verbose=True):
     """
     Only print the txt if verbose is set to True
@@ -300,3 +287,21 @@ def verb_print(txt, verbose=True):
     """
     if verbose:
         print(txt)
+
+
+def get_file_length(file_name):
+    """
+    Get the file length, this would be useful to know the total length for tqdm when processing large file
+    :param file_name: the path to the file
+    :return:
+    """
+    return int(subprocess.check_output('wc -l {}'.format(file_name), shell=True).split()[0])
+
+
+def get_time_str(time_fmt='%Y-%m-%d_%H-%M-%S'):
+    """
+    Return the formatted time string, the default pattern has no backslash so it can be used in directory path
+    :param time_fmt:
+    :return:
+    """
+    return datetime.datetime.now().strftime(time_fmt)
