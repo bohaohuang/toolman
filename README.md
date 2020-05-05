@@ -1,4 +1,5 @@
 # ToolMan: Python utility functions for R&D
+![travis-ci](https://travis-ci.com/bohaohuang/toolman.svg?branch=master)  
 See the source for this project [here](https://github.com/bohaohuang/toolman)
 ## Modules:
 ### *[misc_utils.py](./toolman/misc_utils.py)*: 
