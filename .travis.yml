@@ -1,3 +1,6 @@
+# Disable sudo to speed up the build
+sudo: false
+
 language: python
 python:
   - 3.6
@@ -5,11 +8,11 @@ python:
 before_install:
   - python --version
   - pip install -U pip
-  - pip install -U pytest
+  - pip install -U pytest pytest-cov
   - pip install codecov
 install:
-  - sudo python setup.py install
+  - python3 setup.py install
   - pip install ".[test]" . # install package + test dependencies
-script: pytest # run tests
+script: pytest --cov=./ # run tests
 after_success:
   - codecov # submit coverage
