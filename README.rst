@@ -2,8 +2,14 @@
 ToolMan: Python utility functions for R&D
 *****************************************
 
+.. image:: https://img.shields.io/pypi/v/toolman.svg
+   :target: https://pypi.python.org/pypi/toolman/
+
 .. image:: https://travis-ci.com/bohaohuang/toolman.svg?branch=master
+  :target: https://travis-ci.com/bohaohuang/toolman
+
 .. image:: https://codecov.io/gh/bohaohuang/toolman/branch/master/graph/badge.svg
+  :target: https://codecov.io/gh/bohaohuang/toolman
 
 See the source for this project on our `GitHub page <https://github.com/bohaohuang/toolman>`_
 
