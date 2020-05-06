@@ -100,3 +100,21 @@ def test_io_funcs_image(ext):
     np.testing.assert_array_almost_equal(data_read, img)
 
     shutil.rmtree(test_dir)
+
+
+def test_get_file_length():
+    test_dir = './temp'
+    misc_utils.make_dir_if_not_exist(test_dir)
+    assert os.path.exists(test_dir)
+
+    for i in range(10):
+        length = np.random.randint(100, 501)
+        text = []
+        for _ in range(length):
+            text.append('abcdefg\n')
+
+        save_name = os.path.join(test_dir, 'dat.txt')
+        misc_utils.save_file(save_name, text)
+        assert misc_utils.get_file_length(save_name) == length
+
+    shutil.rmtree(test_dir)

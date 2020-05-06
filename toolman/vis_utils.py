@@ -10,7 +10,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Own modules
-from .misc_utils import change_channel_order
+from .img_utils import change_channel_order
 
 
 def get_default_colors():

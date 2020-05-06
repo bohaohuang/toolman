@@ -6,6 +6,7 @@
 # Built-in
 
 # Libs
+import numpy as np
 
 # Own modules
 from .misc_utils import load_file
