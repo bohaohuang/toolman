@@ -24,6 +24,5 @@ setup(name='toolman',
             'matplotlib',
             'torchsummary',
             'pandas',
-            'tifffile',
       ],
       zip_safe=False)
