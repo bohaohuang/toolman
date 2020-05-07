@@ -102,6 +102,26 @@ def test_io_funcs_image(ext):
     shutil.rmtree(test_dir)
 
 
+def test_io_funcs_image_pil():
+    img = np.random.randint(0, 256, (512, 512, 3))
+
+    test_dir = './temp'
+    misc_utils.make_dir_if_not_exist(test_dir)
+    assert os.path.exists(test_dir)
+
+    save_name = os.path.join(test_dir, 'dat.png')
+    misc_utils.save_file(save_name, img)
+    assert os.path.exists(save_name)
+
+    data_read = misc_utils.load_file(save_name, pil=True)
+    np.testing.assert_array_almost_equal(np.array(data_read), img)
+
+    data_read = misc_utils.load_file(save_name, pil=True, to_numpy=True)
+    np.testing.assert_array_almost_equal(data_read, img)
+
+    shutil.rmtree(test_dir)
+
+
 def test_get_file_length():
     test_dir = './temp'
     misc_utils.make_dir_if_not_exist(test_dir)
