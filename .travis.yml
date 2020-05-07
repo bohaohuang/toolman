@@ -10,8 +10,9 @@ before_install:
   - pip install -U pip
   - pip install -U pytest pytest-cov
   - pip install codecov
+  - apt-get install python-dev
 install:
-  - python3 setup.py install
+  - python setup.py install
   - pip install torch==1.5.0+cpu torchvision==0.6.0+cpu -f https://download.pytorch.org/whl/torch_stable.html
   - pip install ".[test]" . # install package + test dependencies
 script: pytest --cov=./ # run tests
