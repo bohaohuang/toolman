@@ -1,6 +1,3 @@
-# Disable sudo to speed up the build
-sudo: false
-
 language: python
 python:
   - 3.6
@@ -10,7 +7,7 @@ before_install:
   - pip install -U pip
   - pip install -U pytest pytest-cov
   - pip install codecov
-  - apt-get install python-dev
+  - sudo apt-get install python-dev
 install:
   - python setup.py install
   - pip install torch==1.5.0+cpu torchvision==0.6.0+cpu -f https://download.pytorch.org/whl/torch_stable.html
