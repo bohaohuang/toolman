@@ -24,6 +24,8 @@ def set_gpu(gpu, enable_benchmark=True):
     :param enable_benchmark: if True, will let CUDNN find optimal set of algorithms for input configuration
     :return: device instance
     """
+    if not torch.cuda.is_available():
+        return torch.device('cpu'), False
     if not isinstance(gpu, str):
         gpu = str(int(gpu))
     if len(str(gpu)) > 1:
@@ -104,28 +106,14 @@ class LossMeter(nn.Module):
         return self.loss / self.cnt
 
 
-def write_and_print(writer, phase, current_epoch, total_epoch, loss_dict, s_time):
+def infi_loop_loader(dl):
     """
-    Write loss variables to the tensorboard as well as print log message
-    :param writer: tensorboardX SummaryWriter
-    :param phase: the current phase, will determine where the variables will be written in tensorboard
-    :param current_epoch: current epoch number
-    :param total_epoch: total number of epochs
-    :param loss_dict: a dictionary with loss name and loss value pairs
-    :param s_time: the time before this epoch begins, this is used to calculate duration
-    :return:
+    An iterator that reloads after reaching to the end
+    :param dl: data loader
+    :return: an endless iterator
     """
-    loss_str = '[{}] Epoch: {}/{} '.format(phase, current_epoch, total_epoch)
-    for loss_name, loss_value in loss_dict.items():
-        if 'image' in loss_name:
-            grid = torchvision.utils.make_grid(loss_value)
-            writer.add_image('{}/{}_epoch'.format(loss_name, phase), grid, current_epoch)
-        else:
-            writer.add_scalar('data/{}_{}_epoch'.format(phase, loss_name), loss_value, current_epoch)
-            loss_str += '{}: {:.3f} '.format(loss_name, loss_value)
-    print(loss_str)
-    stop_time = timeit.default_timer()
-    print('Execution time: {}\n'.format(str(stop_time - s_time)))
+    while True:
+        for x in dl: yield x
 
 
 if __name__ == '__main__':
