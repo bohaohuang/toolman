@@ -7,7 +7,7 @@ before_install:
   - pip install -U pip
   - pip install -U pytest pytest-cov
   - pip install codecov
-  - sudo apt-get install python3-dev gcc
+  - sudo apt-get install python3-dev gcc libaec-dev
 install:
   - python setup.py install
   - pip install torch==1.5.0+cpu torchvision==0.6.0+cpu -f https://download.pytorch.org/whl/torch_stable.html
