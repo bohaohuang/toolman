@@ -160,5 +160,51 @@ def compare_figures(images, nrows_ncols, fig_size=(10, 8), show_axis=False, show
         plt.show()
 
 
+def compare_bars(data, labels, xticks, save_name=None, width=0.3, figsize=(8, 6), show_text=True, font_size=8,
+                 legend_loc='upper right', x_offset=-0.12, y_offset=0.0, ylim=None, show_fig=True):
+    """
+    Create grouped bar plots with legends and value displayed on top of each bar
+    :param data: data to be displayed, should be a 2D np array, each row has a legend and column occupies one xtick
+    :param labels: the labels to be displayed in the legends, should be the same as the row number of data
+    :param xticks: the xticks text, should be the same as the column number of data
+    :param save_name: if not None, the figure will be saved to this path
+    :param width: the width of each bar
+    :param figsize: the size of the figure
+    :param show_text: if True, value will be displayed on top of each bar
+    :param font_size: the size of the font for value texts, only works when show_text=True
+    :param legend_loc: the location of the legends, see plt legends for available options
+    :param x_offset: horizontal offsets of value text, only works when show_text=True
+    :param y_offset: vertical offsets of value text, only works when show_text=True
+    :param ylim: if None, set the y axis range by ylim, should be a tuple of (min, max)
+    :param show_fig: if True, figure will be displayed, otherwise figure will be closed
+    :return:
+    """
+    assert len(labels) == data.shape[0]
+    assert len(xticks) == data.shape[1]
+
+    x_len = data.shape[1]
+    x = np.arange(x_len)
+
+    plt.figure(figsize=figsize)
+    for cnt in range(data.shape[0]):
+        plt.bar(x+width*cnt, data[cnt, :], width, label=labels[cnt])
+        if show_text:
+            for cnt_t, d in enumerate(data[cnt, :]):
+                plt.text(x[cnt_t]+width*cnt+x_offset, d+y_offset, '{:.2f}'.format(d), fontsize=font_size)
+    plt.xticks(x+width*(len(labels)/2-1/2), xticks)
+    if ylim is not None:
+        plt.ylim(ylim)
+
+    plt.legend(loc=legend_loc)
+    plt.tight_layout()
+    if save_name is not None:
+        plt.savefig(save_name)
+
+    if show_fig:
+        plt.show()
+    else:
+        plt.close()
+
+
 if __name__ == '__main__':
     pass
