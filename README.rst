@@ -59,6 +59,17 @@ a) Display images in side by side with axis linked
     fig2 = tm.misc_utils.load_file(img_name_1)
     tm.vis_utils.compare_figures([fig1, fig2], (1, 2), fig_size=(12, 5))
 
+b) Display barplots
+
+.. code-block:: python
+
+    import toolman as tm
+    data = np.random.random((3, 4))
+    labels = ['group 1', 'group 2', 'group 3']
+    xticks = ['cluster 1', 'cluster 2', 'cluster 3', 'cluster 4']
+    tm.vis_utils.compare_bars(data, labels, xticks)
+
+
 `img_utils <./toolman/img_utils.py>`_
 *******************************************
 image specific utility functions
