@@ -7,7 +7,7 @@ def readme():
 
 
 setup(name='toolman',
-      version='0.1.8',
+      version='0.1.9',
       description='Python utility tools for research',
       url='https://github.com/bohaohuang/toolman',
       author='bohaohuang',

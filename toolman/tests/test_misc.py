@@ -138,3 +138,28 @@ def test_get_file_length():
         assert misc_utils.get_file_length(save_name) == length
 
     shutil.rmtree(test_dir)
+
+
+@pytest.mark.parametrize('array', [np.arange(100), ['a', 10, None, ('b', 2), 11, 12, 13, 14, 15, 16]])
+@pytest.mark.parametrize('portions', [(0.1, 0.2), (0.1, )])
+def test_randomsplit_fill(array, portions):
+    final = misc_utils.random_split(array, portions)
+    assert len(final) == len(portions) + 1
+    for cnt in range(len(portions)):
+        assert len(final[cnt]) == int(len(array) * portions[cnt])
+
+
+@pytest.mark.parametrize('array', [np.arange(100), ['a', 10, None, ('b', 2), 11, 12, 13, 14, 15, 16]])
+@pytest.mark.parametrize('portions', [(0.1, 0.2, 0.7), (0.1, 0.9)])
+def test_randomsplit_all(array, portions):
+    final = misc_utils.random_split(array, portions)
+    assert len(final) == len(portions)
+    for cnt in range(len(portions)):
+        assert len(final[cnt]) == int(len(array) * portions[cnt])
+
+
+@pytest.mark.parametrize('array', [np.arange(100), ['a', 10, None, ('b', 2), 11, 12, 13, 14, 15, 16]])
+@pytest.mark.parametrize('portions', [(0.1, 0.2, 0.8), (0.1, -0.5)])
+def test_randomsplit_error(array, portions):
+    with pytest.raises(ValueError):
+        misc_utils.random_split(array, portions)

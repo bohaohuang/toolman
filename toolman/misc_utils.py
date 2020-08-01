@@ -307,3 +307,32 @@ def get_time_str(time_fmt='%Y-%m-%d_%H-%M-%S'):
     :return:
     """
     return datetime.datetime.now().strftime(time_fmt)
+
+
+def random_split(array, portions, seed=None):
+    """
+    Randomly split an array into given portions
+    :param array: an iterable object, will be splitted into different portions
+    :param portions: a list of portions, should be summed to 1, otherwise the last element will be the rest elements
+    :param seed: if given, the seed will be set, this is for reproducibility
+    :return:
+    """
+    if seed is not None:
+        np.random.seed(seed)
+    if np.sum(portions) < 1 and np.sum(portions) > 0:
+        portions = list(portions)
+        portions.append(1 - np.sum(portions))
+    elif np.sum(portions) > 1 or np.sum(portions) < 0:
+        raise ValueError
+
+    array_len = len(array)
+    rand_idx = np.random.permutation(np.arange(array_len))
+    portions = [int(np.floor(a * array_len)) for a in portions]
+    for cnt in range(1, len(portions)):
+        portions[cnt] = portions[cnt-1] + portions[cnt]
+
+    splits = [[array[a] for a in rand_idx[:portions[0]]]]
+    for lb, rb in zip(portions[:-1], portions[1:]):
+        splits.append([array[a] for a in rand_idx[lb:rb]])
+
+    return splits
