@@ -8,6 +8,7 @@
 # Libs
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.patches as patches
 
 # Own modules
 from .img_utils import change_channel_order
@@ -204,6 +205,45 @@ def compare_bars(data, labels, xticks, save_name=None, width=0.3, figsize=(8, 6)
         plt.show()
     else:
         plt.close()
+
+
+def overlay_bboxes(bboxes, ax=None, linewidth=1, edgecolor='r', facecolor='none'):
+    """
+    Add bounding boxes to the current figure
+    :param bboxes: list of bounding boxes, each element should in range of [xmin, ymin, xmax, ymax]
+    :param ax: the axes to add bouding boxes, if None, the current axes will be used
+    :param linewidth: the line width of the bboxes to be drawn
+    :param edgecolor: the edge color of the bboxes to be drawn
+    :param facecolor: the face color of the bboxes to be drawn, default is None
+    :return:
+    """
+    if ax is None:
+        ax = plt.gca()
+
+    for bbox in bboxes:
+        xmin, ymin, xmax, ymax = bbox
+        rect = patches.Rectangle((ymin, xmin), ymax - ymin, xmax - xmin, linewidth=linewidth,
+                                 edgecolor=edgecolor, facecolor=facecolor)
+        ax.add_patch(rect)
+
+
+def overlay_polygons(polygons, ax=None, linewidth=1, edgecolor='r', facecolor='none'):
+    """
+    Add polygons to the current figure
+    :param bboxes: list of bounding boxes, each element should in range of [xmin, ymin, xmax, ymax]
+    :param ax: the axes to add bouding boxes, if None, the current axes will be used
+    :param linewidth: the line width of the bboxes to be drawn
+    :param edgecolor: the edge color of the bboxes to be drawn
+    :param facecolor: the face color of the bboxes to be drawn, default is None
+    :return:
+    """
+    if ax is None:
+        ax = plt.gca()
+
+    for poly in polygons:
+        x = [a[0] for a in poly]
+        y = [a[1] for a in poly]
+        ax.fill(x, y, facecolor=facecolor, edgecolor=edgecolor, linewidth=linewidth)
 
 
 if __name__ == '__main__':
