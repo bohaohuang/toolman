@@ -7,7 +7,7 @@ def readme():
 
 
 setup(name='toolman',
-      version='0.1.10',
+      version='0.1.10b',
       description='Python utility tools for research',
       url='https://github.com/bohaohuang/toolman',
       author='bohaohuang',
@@ -24,5 +24,6 @@ setup(name='toolman',
             'matplotlib',
             'torchsummary',
             'pandas',
+            'opencv-python',
       ],
       zip_safe=False)
