@@ -13,6 +13,7 @@ from functools import wraps
 import numpy as np
 import pandas as pd
 from PIL import Image
+from tqdm import tqdm
 from skimage import io
 from natsort import natsorted
 
@@ -102,6 +103,23 @@ def load_file(file_name, **kwargs):
         raise IOError('Problem loading {}'.format(file_name))
 
 
+def load_files(file_name, **kwargs):
+    """
+    Load a list of files
+    :param file_name: could be either the path of one file or list of files
+    :return: file data, or IOError if it cannot be read by either numpy or pickle or imageio
+    """
+    if isinstance(file_name, str):
+        return load_file(file_name, **kwargs)
+    elif isinstance(file_name, list) or isinstance(file_name, str):
+        data = []
+        for f in file_name:
+            data.append(load_file(f, **kwargs))
+        return data
+    else:
+        raise TypeError('file_name type {} not understood'.format(type(file_name)))
+
+
 def save_file(file_name, data, fmt='%.8e', sort_keys=True, indent=4):
     """
     Save data file of given path, use numpy.load if it is in .npy format,
@@ -128,6 +146,23 @@ def save_file(file_name, data, fmt='%.8e', sort_keys=True, indent=4):
             data.save(file_name)
     except Exception:  # so many things could go wrong, can't be more specific.
         raise IOError('Problem saving this data')
+
+
+def save_files(file_name, data, fmt='%.8e', sort_keys=True, indent=4):
+    """
+    Save a list of files
+    :param file_name: could be either the path of one file or list of files
+    :return: file data, or IOError if it cannot be read by either numpy or pickle or imageio
+    """
+    if isinstance(file_name, str):
+        return save_file(file_name, data, fmt, sort_keys, indent)
+    elif isinstance(file_name, list) or isinstance(file_name, str):
+        data = []
+        for f in file_name:
+            data.append(save_file(f, data, fmt, sort_keys, indent))
+        return data
+    else:
+        raise TypeError('file_name type {} not understood'.format(type(file_name)))
 
 
 def rotate_list(l):
@@ -336,3 +371,16 @@ def random_split(array, portions, seed=None):
         splits.append([array[a] for a in rand_idx[lb:rb]])
 
     return splits
+
+
+def create_symlinks(source_files, dest_dir):
+    """
+    Create symbolic links of certain files in another directory
+    :param source_files: absolute path of the files
+    :param dest_dir: destination of the folder to have the symbolic links
+
+    :return:
+    """
+    for source_file in tqdm(source_files):
+        target_file = os.path.join(dest_dir, os.path.basename(source_file))
+        os.symlink(source_file, target_file)
