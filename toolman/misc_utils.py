@@ -2,6 +2,7 @@
 import os
 import time
 import json
+import yaml
 import pickle
 import datetime
 import subprocess
@@ -81,6 +82,9 @@ def load_file(file_name, **kwargs):
             data = pd.read_csv(file_name, **kwargs)
         elif file_name[-4:] == 'json':
             data = json.load(open(file_name))
+        elif file_name[-4:] == 'yaml':
+            with open(file_name, 'r') as stream:
+                data = yaml.safe_load(stream)
         elif 'pil' in kwargs and kwargs['pil']:
             try:
                 data = Image.open(file_name)

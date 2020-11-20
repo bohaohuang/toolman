@@ -161,13 +161,16 @@ def compare_figures(images, nrows_ncols, fig_size=(10, 8), show_axis=False, show
         plt.show()
 
 
-def compare_bars(data, labels, xticks, save_name=None, width=0.3, figsize=(8, 6), show_text=True, font_size=8,
-                 legend_loc='upper right', x_offset=-0.12, y_offset=0.0, ylim=None, show_fig=True):
+def compare_bars(data, labels, xticks, x_axis_name=None, y_axis_name=None, save_name=None, width=0.3, figsize=(8, 6),
+                 show_text=True, font_size=8, legend_loc='upper right', x_offset=-0.12, y_offset=0.0, ylim=None,
+                 num_fmt='{:.2f}', show_fig=True):
     """
     Create grouped bar plots with legends and value displayed on top of each bar
     :param data: data to be displayed, should be a 2D np array, each row has a legend and column occupies one xtick
     :param labels: the labels to be displayed in the legends, should be the same as the row number of data
     :param xticks: the xticks text, should be the same as the column number of data
+    :param x_axis_name: the name of the x axis
+    :param y_axis_name: the name of the y axis
     :param save_name: if not None, the figure will be saved to this path
     :param width: the width of each bar
     :param figsize: the size of the figure
@@ -177,6 +180,7 @@ def compare_bars(data, labels, xticks, save_name=None, width=0.3, figsize=(8, 6)
     :param x_offset: horizontal offsets of value text, only works when show_text=True
     :param y_offset: vertical offsets of value text, only works when show_text=True
     :param ylim: if None, set the y axis range by ylim, should be a tuple of (min, max)
+    :param num_fmt: the format to display the numbers above the bars
     :param show_fig: if True, figure will be displayed, otherwise figure will be closed
     :return:
     """
@@ -191,10 +195,15 @@ def compare_bars(data, labels, xticks, save_name=None, width=0.3, figsize=(8, 6)
         plt.bar(x+width*cnt, data[cnt, :], width, label=labels[cnt])
         if show_text:
             for cnt_t, d in enumerate(data[cnt, :]):
-                plt.text(x[cnt_t]+width*cnt+x_offset, d+y_offset, '{:.2f}'.format(d), fontsize=font_size)
+                plt.text(x[cnt_t]+width*cnt+x_offset, d+y_offset, num_fmt.format(d), fontsize=font_size)
     plt.xticks(x+width*(len(labels)/2-1/2), xticks)
     if ylim is not None:
         plt.ylim(ylim)
+
+    if x_axis_name is not None:
+        plt.xlabel(x_axis_name)
+    if y_axis_name is not None:
+        plt.ylabel(y_axis_name)
 
     plt.legend(loc=legend_loc)
     plt.tight_layout()
