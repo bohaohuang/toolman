@@ -134,7 +134,7 @@ def make_cmp_mask(lbl, pred, tp_mask_color=(0, 255, 0), fp_mask_color=(255, 0, 0
 
 
 def compare_figures(images, nrows_ncols, fig_size=(10, 8), show_axis=False, show_fig=True,
-                    title_list=None):
+                    title_list=None, cmap=None):
     """
     Show images in grid pattern, link their x and y axis
     :param images: list of images to be displayed
@@ -143,6 +143,7 @@ def compare_figures(images, nrows_ncols, fig_size=(10, 8), show_axis=False, show
     :param show_axis: if True, each subplot will have its axis shown
     :param show_fig: if True, plt.show() will be called
     :param title_list: list of title names to be displayed on each sub images
+    :param cmap: list of plt color maps to be used for each image
     :return:
     """
     from mpl_toolkits.axes_grid1 import Grid
@@ -151,7 +152,10 @@ def compare_figures(images, nrows_ncols, fig_size=(10, 8), show_axis=False, show
     fig = plt.figure(figsize=fig_size)
     grid = Grid(fig, rect=111, nrows_ncols=nrows_ncols, axes_pad=0.25, label_mode='L', share_all=True)
     for i, (ax, img) in enumerate(zip(grid, images)):
-        ax.imshow(img)
+        if cmap is not None:
+            ax.imshow(img, cmap[i])
+        else:
+            ax.imshow(img)
         if not show_axis:
             ax.axis('off')
         if title_list:
