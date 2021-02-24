@@ -134,7 +134,7 @@ def make_cmp_mask(lbl, pred, tp_mask_color=(0, 255, 0), fp_mask_color=(255, 0, 0
 
 
 def compare_figures(images, nrows_ncols, fig_size=(10, 8), show_axis=False, show_fig=True,
-                    title_list=None, cmap=None):
+                    title_list=None, cmap=None, v_range=None):
     """
     Show images in grid pattern, link their x and y axis
     :param images: list of images to be displayed
@@ -153,7 +153,10 @@ def compare_figures(images, nrows_ncols, fig_size=(10, 8), show_axis=False, show
     grid = Grid(fig, rect=111, nrows_ncols=nrows_ncols, axes_pad=0.25, label_mode='L', share_all=True)
     for i, (ax, img) in enumerate(zip(grid, images)):
         if cmap is not None:
-            ax.imshow(img, cmap[i])
+            if v_range is not None and v_range[i] is not None:
+                ax.imshow(img, cmap[i], vmin=v_range[i][0], vmax=v_range[i][1])
+            else:
+                ax.imshow(img, cmap[i])
         else:
             ax.imshow(img)
         if not show_axis:
