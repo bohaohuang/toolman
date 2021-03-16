@@ -223,6 +223,27 @@ def compare_bars(data, labels, xticks, x_axis_name=None, y_axis_name=None, save_
         plt.close()
 
 
+def check_img(img, show_axis=False, show_stats=True, cmap=None, fig_size=(8, 6)):
+    """
+    Quickly check an given image
+    :param img: input image, should be h*w*3 or h*w
+    :param show_axis: if True, axis will be displayed
+    :param show_stats: if True, the min and max will be displayed on top of the image
+    :param cmap: the color map that will be used
+    :param fig_size: the figure size of (width, height)
+    :return:
+    """
+    plt.figure(fig_size)
+    plt.imshow(img)
+    if not show_axis:
+        plt.axis('off')
+    if cmap is not None:
+        plt.set_cmap(cmap)
+    if show_stats:
+        plt.title(f'vmin={np.min(img)}, vmax={np.max(img)}')
+    plt.show()
+
+
 def overlay_bboxes(bboxes, ax=None, linewidth=1, edgecolor='r', facecolor='none'):
     """
     Add bounding boxes to the current figure
