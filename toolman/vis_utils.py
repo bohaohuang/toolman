@@ -241,6 +241,7 @@ def check_img(img, show_axis=False, show_stats=True, cmap=None, fig_size=(8, 6))
         plt.set_cmap(cmap)
     if show_stats:
         plt.title(f'vmin={np.min(img)}, vmax={np.max(img)}')
+    plt.tight_layout()
     plt.show()
 
 
