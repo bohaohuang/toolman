@@ -233,7 +233,7 @@ def check_img(img, show_axis=False, show_stats=True, cmap=None, fig_size=(8, 6))
     :param fig_size: the figure size of (width, height)
     :return:
     """
-    plt.figure(fig_size)
+    plt.figure(figsize=fig_size)
     plt.imshow(img)
     if not show_axis:
         plt.axis('off')
