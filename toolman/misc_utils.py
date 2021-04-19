@@ -145,6 +145,9 @@ def save_file(file_name, data, fmt='%.8e', sort_keys=True, indent=4):
             np.savetxt(file_name, data, delimiter=',', fmt=fmt)
         elif file_name[-4:] == 'json':
             json.dump(data, open(file_name, 'w'), sort_keys=sort_keys, indent=indent)
+        elif file_name[-4:] == 'yaml':
+            with open(file_name, 'r') as stream:
+                yaml.safe_dump(data, stream)
         else:
             data = Image.fromarray(data.astype(np.uint8))
             data.save(file_name)
